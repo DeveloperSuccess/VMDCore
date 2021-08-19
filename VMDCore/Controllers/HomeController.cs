@@ -22,7 +22,7 @@ namespace VMDCore.Controllers
 
         public IActionResult Index()
         {
-            this.AddFlashMessage("Ура, это сработало!.", FlashMessageType.Success);
+ 
             return View();
         }
 

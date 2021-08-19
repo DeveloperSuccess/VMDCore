@@ -16,7 +16,8 @@ namespace VMDCore.Models
        
         [Display(Name = "Выберите изображение напитка")]
         public ICollection<IFormFile> UploadedImage { get; set; }
-
+        
+        // Заголовок формы
         public string FormCaption { get; set; }
 
         public ManageDrinkViewModel()

@@ -11,7 +11,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using VMDCore.Bussiness.Interfaces;
+using VMDCore.Bussiness.Managers;
 using VMDCore.Data;
+using VMDCore.Data.Interfaces;
+using VMDCore.Data.Repositories;
 
 namespace VMDCore
 {
@@ -31,9 +35,15 @@ namespace VMDCore
                 options.UseLazyLoadingProxies().UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
+
+            services.AddScoped<IDrinkRepository, DrinkRepository>();
+
+            services.AddScoped<IDrinkManager, DrinkManager>();
+
+
             services.AddMvc();
-            services.AddRazorPages();
-          
+            services.AddRazorPages();          
+
             services.AddControllersWithViews();
         }
 
