@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using VMDCore.Bussiness.Managers;
 
 namespace VMDCore.Extensions
 {
@@ -33,10 +34,10 @@ namespace VMDCore.Extensions
             tempData[key] = JsonConvert.SerializeObject(obj, Formatting.Indented);
         }
 
-    /*    public static IServiceCollection AddImageProcessing(this IServiceCollection services)
+       public static IServiceCollection AddImageProcessing(this IServiceCollection services)
         {
             return ImageManager.ConfigureImageProcessingMiddleWare(services);
-        } */
+        } 
 
         public static IHtmlContent Script(this IHtmlHelper helper, Func<object, HelperResult> template)
         {

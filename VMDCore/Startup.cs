@@ -16,6 +16,7 @@ using VMDCore.Bussiness.Managers;
 using VMDCore.Data;
 using VMDCore.Data.Interfaces;
 using VMDCore.Data.Repositories;
+using VMDCore.Extensions;
 
 namespace VMDCore
 {
@@ -45,6 +46,8 @@ namespace VMDCore
             services.AddRazorPages();          
 
             services.AddControllersWithViews();
+
+            services.AddImageProcessing();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

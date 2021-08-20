@@ -13,7 +13,6 @@ namespace VMDCore.Data.Models
 
         public Drink()
         {
-            ImagesCount = 0;
             Hidden = false;
         }
 
@@ -30,10 +29,6 @@ namespace VMDCore.Data.Models
         [Display(Name = "Цена")]
         [Range(0, int.MaxValue, ErrorMessage = "Цена не может быть отрицательной")]
         public int Price { get; set; }               
-
-        [Display(Name = "Общее количество изображений напитка")]
-        [Range(0, int.MaxValue, ErrorMessage = "Количество изображений не может быть отрицательным")]
-        public int ImagesCount { get; set; }
 
         // Можно ли заказать напиток
         [Display(Name = "Hide")]

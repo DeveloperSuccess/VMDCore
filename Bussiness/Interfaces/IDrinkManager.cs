@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,5 +12,8 @@ namespace VMDCore.Bussiness.Interfaces
     {
         Drink FindDrinkById(int id);
         void SaveDrink(Drink drink);
+        void SaveDrinkImage(Drink drink, IFormFile image);
+        void RemoveThumbnailFile(int drinkId);
     }
+
 }

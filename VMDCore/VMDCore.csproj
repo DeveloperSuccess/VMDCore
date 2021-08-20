@@ -15,4 +15,8 @@
     <ProjectReference Include="..\Bussiness\VMDCore.Bussiness.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\drinks\" />
+  </ItemGroup>
+
 </Project>

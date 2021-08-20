@@ -69,3 +69,27 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+#drink-image-administration img {
+    width: auto;
+    height: auto;
+    max-width: 128px;
+    max-height: 128px;
+    vertical-align: middle;
+}
+
+#drink-image-administration a {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+}
+
+#drink-image-administration > div {
+    display: inline-block;
+    width: 138px;
+    text-align: center;
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin-bottom: 10px;
+    position: relative;
+}

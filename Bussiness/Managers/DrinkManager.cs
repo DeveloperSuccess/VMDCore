@@ -1,4 +1,8 @@
-﻿using VMDCore.Bussiness.Interfaces;
+﻿using Microsoft.AspNetCore.Http;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using VMDCore.Bussiness.Interfaces;
 using VMDCore.Data.Interfaces;
 using VMDCore.Data.Models;
 
@@ -8,6 +12,10 @@ namespace VMDCore.Bussiness.Managers
     public class DrinkManager : IDrinkManager
     {
         private IDrinkRepository drinkRepository;
+
+        private const string DrinkImagesPath = "wwwroot/images/drinks/";
+        private IImageManager imageManager = new ImageManager(DrinkImagesPath);
+        private const int DrinkThumbnailSize = 320;
 
         public DrinkManager(IDrinkRepository drinkRepository)
         {
@@ -28,6 +36,46 @@ namespace VMDCore.Bussiness.Managers
             else
             {
                 drinkRepository.Insert(drink);
+            }
+        }
+
+        private string GetThumbnailFileName(int drinkId, bool full = true)
+        {
+            string result = $"{drinkId}_thumb";
+            if (full)
+                result = DrinkImagesPath + result + ".png";
+            return result;
+        }
+
+        public void RemoveThumbnailFile(int drinkId)
+        {
+            string thumbFileName = GetThumbnailFileName(drinkId);
+            if (File.Exists(thumbFileName))
+                File.Delete(thumbFileName);
+        }
+
+        public void SaveDrinkImage(Drink drink, IFormFile image)
+        {
+
+            if (image == null)
+                throw new Exception("Не удалось загрузить изображение!");
+
+            // сохраняем изображение как миниатюру
+                    imageManager.SaveImage(image,
+                        GetThumbnailFileName(drink.DrinkId, full: false),
+                        ImageManager.ImageExtension.Png,
+                        DrinkThumbnailSize);
+            
+
+            drinkRepository.Update(drink);
+        }
+
+        private void CleanDrink(int drinkId, bool removeImages = true)
+        {
+            if (removeImages)
+            {
+                drinkRepository.Delete(drinkId);
+                RemoveThumbnailFile(drinkId);
             }
         }
     }

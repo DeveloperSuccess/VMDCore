@@ -51,9 +51,15 @@ namespace VMDCore.Controllers
 
             // сохраняем напиток и его отношения
             drinkManager.SaveDrink(model.Drink);
+
+            drinkManager.SaveDrinkImage(model.Drink, model.UploadedImage);
             this.AddFlashMessage("Напиток был успешно сохранен.", FlashMessageType.Success);
 
             return RedirectToAction(actionName: "Index", controllerName: "Home");
+        }
+        public void DeleteImage(int drinkId)
+        {
+            drinkManager.RemoveThumbnailFile(drinkId);
         }
     }
 }

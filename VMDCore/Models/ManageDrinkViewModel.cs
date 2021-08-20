@@ -13,9 +13,10 @@ namespace VMDCore.Models
     {
         public Drink Drink { get; set; }
 
-       
+
+       [Required]
         [Display(Name = "Выберите изображение напитка")]
-        public ICollection<IFormFile> UploadedImage { get; set; }
+        public IFormFile UploadedImage { get; set; }
         
         // Заголовок формы
         public string FormCaption { get; set; }
