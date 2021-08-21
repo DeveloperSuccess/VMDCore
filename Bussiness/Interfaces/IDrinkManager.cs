@@ -14,6 +14,8 @@ namespace VMDCore.Bussiness.Interfaces
         void SaveDrink(Drink drink);
         void SaveDrinkImage(Drink drink, IFormFile image);
         void RemoveThumbnailFile(int drinkId);
+        List<Drink> GetAllDrink();
+        bool ExistsThumbnailFile(int drinkId);
     }
 
 }

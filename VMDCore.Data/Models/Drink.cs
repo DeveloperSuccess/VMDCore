@@ -28,7 +28,12 @@ namespace VMDCore.Data.Models
         [Required(ErrorMessage = "Введите цену")]
         [Display(Name = "Цена")]
         [Range(0, int.MaxValue, ErrorMessage = "Цена не может быть отрицательной")]
-        public int Price { get; set; }               
+        public int Price { get; set; }
+
+        [Required(ErrorMessage = "Введите количество доступных напитков")]
+        [Display(Name = "Количество доступных напитков")]
+        [Range(0, 10, ErrorMessage = "Количество доступных напитков может быть от 0 до 10")]
+        public int Stock { get; set; }
 
         // Можно ли заказать напиток
         [Display(Name = "Hide")]

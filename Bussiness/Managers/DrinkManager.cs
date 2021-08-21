@@ -15,11 +15,17 @@ namespace VMDCore.Bussiness.Managers
 
         private const string DrinkImagesPath = "wwwroot/images/drinks/";
         private IImageManager imageManager = new ImageManager(DrinkImagesPath);
-        private const int DrinkThumbnailSize = 320;
+        private const int DrinkHeightThumbnailSize = 350;
+        private const int DrinkWidthThumbnailSize = 320;
 
         public DrinkManager(IDrinkRepository drinkRepository)
         {
             this.drinkRepository = drinkRepository;
+        }
+
+        public List<Drink> GetAllDrink()
+        {
+            return drinkRepository.GetAll();
         }
 
         public Drink FindDrinkById(int id)
@@ -47,6 +53,17 @@ namespace VMDCore.Bussiness.Managers
             return result;
         }
 
+        public bool ExistsThumbnailFile(int drinkId)
+        {
+            string PathFile = GetThumbnailFileName(drinkId);
+            if (File.Exists(PathFile))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public void RemoveThumbnailFile(int drinkId)
         {
             string thumbFileName = GetThumbnailFileName(drinkId);
@@ -61,11 +78,11 @@ namespace VMDCore.Bussiness.Managers
                 throw new Exception("Не удалось загрузить изображение!");
 
             // сохраняем изображение как миниатюру
-                    imageManager.SaveImage(image,
-                        GetThumbnailFileName(drink.DrinkId, full: false),
-                        ImageManager.ImageExtension.Png,
-                        DrinkThumbnailSize);
-            
+            imageManager.SaveImage(image,
+                GetThumbnailFileName(drink.DrinkId, full: false),
+                ImageManager.ImageExtension.Png,
+                DrinkWidthThumbnailSize, DrinkHeightThumbnailSize);
+
 
             drinkRepository.Update(drink);
         }

@@ -10,17 +10,17 @@
     <div class="col-md-4">
         <form asp-action="Manage" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @Model.Drink.DrinkId
+            @ViewBag.ExistsThumbnailFile
             <div class="form-group">
                 <label asp-for="Drink.Title" class="control-label"></label>
                 <input asp-for="Drink.Title" class="form-control" />
                 <span asp-validation-for="Drink.Title" class="text-danger"></span>
             </div>
             <div id="drink-image-administration">
-            <div>
-                <img src="/images/drinks/@(Model.Drink.DrinkId)_thumb.png" alt="@Model.Drink.Title" />
-                <a href="#" data-image-index="1"><span class="glyphicon glyphicon-remove" aria-hidden="true">Удалить</span></a>
-            </div>
+                <div>
+                    <img src="/images/drinks/@(Model.Drink.DrinkId)_thumb.png" alt="@Model.Drink.Title" />
+                    <a href="#" data-image-index="1"><span class="glyphicon glyphicon-remove" aria-hidden="true">Удалить</span></a>
+                </div>
             </div>
             <div class="form-group">
                 <label asp-for="UploadedImage" class="control-label"></label>
@@ -31,6 +31,11 @@
                 <label asp-for="Drink.Price" class="control-label"></label>
                 <input asp-for="Drink.Price" class="form-control" />
                 <span asp-validation-for="Drink.Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Drink.Stock" class="control-label"></label>
+                <input asp-for="Drink.Stock" class="form-control" />
+                <span asp-validation-for="Drink.Stock" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input asp-for="Drink.DrinkId" class="form-control" type="hidden" />

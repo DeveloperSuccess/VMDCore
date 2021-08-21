@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Diagnostics;
+using System.IO;
 using VMDCore.Bussiness.Interfaces;
 using VMDCore.Classes;
 using VMDCore.Data.Models;
@@ -18,6 +21,13 @@ namespace VMDCore.Controllers
             this.drinkManager = drinkManager;
         }
 
+        public IActionResult Index(DrinkIndexViewModel model)
+        {
+            model.Drinks = drinkManager.GetAllDrink();
+
+            return View(model);
+        }
+
         [HttpGet]
         public IActionResult Manage(int id)
         {
@@ -27,6 +37,15 @@ namespace VMDCore.Controllers
                     ? "Добавить напиток"
                     : "Редактировать напиток",
             };
+
+            if (drinkManager.ExistsThumbnailFile(id))
+            {
+                using var stream = new MemoryStream();
+                var formFile = new FormFile(stream, 0, stream.Length, "streamFile", file.Split(@"\").Last());
+                ViewBag.ExistsThumbnailFile = "Ура";
+            }
+
+            model.UploadedImage = drinkManager.ExistsThumbnailFile(id);
 
             model.Drink = id != 0
                 ? drinkManager.FindDrinkById(id)
@@ -60,6 +79,12 @@ namespace VMDCore.Controllers
         public void DeleteImage(int drinkId)
         {
             drinkManager.RemoveThumbnailFile(drinkId);
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }
