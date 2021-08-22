@@ -56,12 +56,7 @@ namespace VMDCore.Bussiness.Managers
         public bool ExistsThumbnailFile(int drinkId)
         {
             string PathFile = GetThumbnailFileName(drinkId);
-            if (File.Exists(PathFile))
-            {
-                return true;
-            }
-
-            return false;
+            return File.Exists(PathFile);
         }
 
         public void RemoveThumbnailFile(int drinkId)

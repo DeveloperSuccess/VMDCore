@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace VMDCore.Extensions
+namespace VMDCore.Classes
 {
     public class AllowedExtensionsAttribute : ValidationAttribute
     {

@@ -16,12 +16,14 @@
                 <input asp-for="Drink.Title" class="form-control" />
                 <span asp-validation-for="Drink.Title" class="text-danger"></span>
             </div>
+            @if (Model.ExistsThumbnailFile == true) {
             <div id="drink-image-administration">
                 <div>
-                    <img src="/images/drinks/@(Model.Drink.DrinkId)_thumb.png" alt="@Model.Drink.Title" />
+                    <img src="/images/drinks/@(Model.Drink.DrinkId)_thumb.png"/>
                     <a href="#" data-image-index="1"><span class="glyphicon glyphicon-remove" aria-hidden="true">Удалить</span></a>
                 </div>
             </div>
+            }
             <div class="form-group">
                 <label asp-for="UploadedImage" class="control-label"></label>
                 <input asp-for="UploadedImage" class="form-control" multiple />
@@ -41,6 +43,11 @@
                 <input asp-for="Drink.DrinkId" class="form-control" type="hidden" />
                 <span asp-validation-for="Drink.DrinkId" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <input asp-for="ExistsThumbnailFile" class="form-control" type="hidden" />
+                <span asp-validation-for="ExistsThumbnailFile" class="text-danger"></span>
+            </div>
+            @Model.ExistsThumbnailFile
             <div class="form-group">
                 <div class="checkbox">
                     <label>
@@ -70,6 +77,9 @@
                     }
                     // remove the image preview
                     element.parent().remove();
+
+                    var ExistsThumbnailFile = $('#ExistsThumbnailFile');
+                    ExistsThumbnailFile.val(false);
                 });
 
             }

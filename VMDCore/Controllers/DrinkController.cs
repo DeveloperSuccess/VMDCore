@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Diagnostics;
-using System.IO;
 using VMDCore.Bussiness.Interfaces;
 using VMDCore.Classes;
 using VMDCore.Data.Models;
@@ -34,18 +33,13 @@ namespace VMDCore.Controllers
             var model = new ManageDrinkViewModel
             {
                 FormCaption = id == 0
-                    ? "Добавить напиток"
-                    : "Редактировать напиток",
+                     ? "Добавить напиток"
+                     : "Редактировать напиток",
+                ExistsThumbnailFile = drinkManager.ExistsThumbnailFile(id)
             };
 
-            if (drinkManager.ExistsThumbnailFile(id))
-            {
-                using var stream = new MemoryStream();
-                var formFile = new FormFile(stream, 0, stream.Length, "streamFile", file.Split(@"\").Last());
-                ViewBag.ExistsThumbnailFile = "Ура";
-            }
+            //  model.ExistsThumbnailFile = drinkManager.ExistsThumbnailFile(model.Drink.DrinkId);
 
-            model.UploadedImage = drinkManager.ExistsThumbnailFile(id);
 
             model.Drink = id != 0
                 ? drinkManager.FindDrinkById(id)
@@ -67,14 +61,28 @@ namespace VMDCore.Controllers
                 return View(model);
             }
 
-
-            // сохраняем напиток и его отношения
-            drinkManager.SaveDrink(model.Drink);
-
-            drinkManager.SaveDrinkImage(model.Drink, model.UploadedImage);
+            if (model.ExistsThumbnailFile)
+            {
+                if (model.UploadedImage != null)
+                {
+                    drinkManager.SaveDrink(model.Drink);
+                    drinkManager.SaveDrinkImage(model.Drink, model.UploadedImage);
+                } else
+                {
+                    drinkManager.SaveDrink(model.Drink);
+                }
+            }
+            else
+            {
+                if (model.UploadedImage != null)
+                {
+                    drinkManager.SaveDrink(model.Drink);
+                    drinkManager.SaveDrinkImage(model.Drink, model.UploadedImage);
+                }
+            }
             this.AddFlashMessage("Напиток был успешно сохранен.", FlashMessageType.Success);
 
-            return RedirectToAction(actionName: "Index", controllerName: "Home");
+            return RedirectToAction(actionName: "Index", controllerName: "Drink");
         }
         public void DeleteImage(int drinkId)
         {
