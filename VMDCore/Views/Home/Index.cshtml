@@ -1,0 +1,28 @@
+﻿@model VMDCore.Models.HomeIndexViewModel
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-8 col-lg-8 col-md-8">
+            <div class="row">
+                @foreach (var p in Model.Drinks)
+                {
+                    <div class="col-sm-6 col-lg-6 col-md-6">
+                        @await Html.PartialAsync("_DrinkThumbnailPartialView", p)
+                    </div>
+                }
+
+            </div>
+        </div>
+            <div class="col-sm-4 col-lg-4 col-md-4">
+                <div class="row">
+                    @foreach (var p in Model.Coins)
+                    {
+                        <div class="col-sm-12 col-lg-12 col-md-12">
+                            @await Html.PartialAsync("_CoinThumbnailPartialView", p)
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+

@@ -1,0 +1,23 @@
+﻿@model VMDCore.Data.Models.Drink
+
+<div class="thumbnail">
+    <div class="product-image text-center">
+        @{ string imagePath = Model.Stock > 0 ? "~/images/drinks/" + Model.DrinkId + "_thumb.png" : "~/images/drinks/no_preview.png";}
+        <img class="product-image-background" src=@Url.Content(imagePath) alt="@Model.Title">
+    </div>
+    <div class="product-title">
+        <h4 class="text-center">
+            @Model.Title
+        </h4>
+    </div>
+    <div class="product-price">
+        <h4 class="text-center">
+            @Model.Price руб.
+        </h4>
+    </div>
+    <div class="ratings">
+        <h4 class="text-center pull-right label label-success">
+            @Model.Stock в наличии
+        </h4>
+    </div>
+</div>

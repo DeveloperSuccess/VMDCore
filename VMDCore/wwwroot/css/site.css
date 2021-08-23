@@ -93,3 +93,6 @@ body {
     margin-bottom: 10px;
     position: relative;
 }
+.product-image-background {
+    max-width: 100%;
+}

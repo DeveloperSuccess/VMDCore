@@ -8,6 +8,7 @@ namespace VMDCore.Data.Models
         public Coin()
         {
             isAvailable = true;
+            NumberCoins = 0;
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.None), Key()]
@@ -16,7 +17,15 @@ namespace VMDCore.Data.Models
         [Range(0, int.MaxValue, ErrorMessage = "Номинал монеты не может быть отрицательным")]
         public int Value { get; set; }
 
+        [Required(ErrorMessage = "Введите количество доступных монет в аппарате")]
+        [Display(Name = "Количество доступных монет в аппарате")]
+        [Range(0, 200, ErrorMessage = "Количество монет в аппарате может быть от 0 до 200")]
+        public int NumberCoins { get; set; }
+
         [Display(Name = "Доступность для ввода")]
         public bool isAvailable { get; set; }
+
+        [NotMapped]
+        public int SumCoins => Value * NumberCoins;
     }
 }

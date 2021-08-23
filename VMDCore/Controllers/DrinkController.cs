@@ -14,16 +14,16 @@ namespace VMDCore.Controllers
     public class DrinkController : Controller
     {
         IDrinkManager drinkManager;
+        
 
         public DrinkController(IDrinkManager drinkManager)
         {
-            this.drinkManager = drinkManager;
+            this.drinkManager = drinkManager;            
         }
 
         public IActionResult Index(DrinkIndexViewModel model)
         {
             model.Drinks = drinkManager.GetAllDrink();
-
             return View(model);
         }
 
@@ -82,7 +82,7 @@ namespace VMDCore.Controllers
             }
             this.AddFlashMessage("Напиток был успешно сохранен.", FlashMessageType.Success);
 
-            return RedirectToAction(actionName: "Index", controllerName: "Drink");
+            return RedirectToAction(actionName: "Index", controllerName: "Home");
         }
         public void DeleteImage(int drinkId)
         {

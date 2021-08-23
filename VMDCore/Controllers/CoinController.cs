@@ -84,7 +84,7 @@ namespace VMDCore.Controllers
             }
             this.AddFlashMessage("Монета была успешно сохранена.", FlashMessageType.Success);
 
-            return RedirectToAction(actionName: "Index", controllerName: "Drink");
+            return RedirectToAction(actionName: "Index", controllerName: "Home");
         }
         public void DeleteImage(int coinId)
         {

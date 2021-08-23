@@ -11,7 +11,12 @@ namespace VMDCore.Data.Repositories
     public class CoinRepository : BaseRepository<Coin>, ICoinRepository
     {
         public CoinRepository(VmdDbContext context) : base(context)
+        {           
+        }
+
+        public int GetBalance()
         {
+            return dbSet.Select(c => c.SumCoins).Sum();
         }
     }
 }
