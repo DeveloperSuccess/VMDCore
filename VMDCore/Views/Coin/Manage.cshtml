@@ -1,4 +1,4 @@
-﻿@model VMDCore.Models.ManageDrinkViewModel
+﻿@model VMDCore.Models.ManageCoinViewModel
 
 @{
     ViewData["Title"] = Model.FormCaption;
@@ -10,47 +10,34 @@
     <div class="col-md-4">
         <form asp-action="Manage" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @ViewBag.ExistsThumbnailFile
             <div class="form-group">
-                <label asp-for="Drink.Title" class="control-label"></label>
-                <input asp-for="Drink.Title" class="form-control" />
-                <span asp-validation-for="Drink.Title" class="text-danger"></span>
+                <label asp-for="Coin.Value" class="control-label"></label>
+                <input asp-for="Coin.Value" class="form-control" />
+                <span asp-validation-for="Coin.Value" class="text-danger"></span>
             </div>
-            @if (Model.ExistsThumbnailFile == true) {
-            <div id="drink-image-administration">
-                <div>
-                    <img src="/images/drinks/@(Model.Drink.DrinkId)_thumb.png"/>
-                    <a href="#" data-image-index="1"><span class="glyphicon glyphicon-remove" aria-hidden="true">Удалить</span></a>
+            @if (Model.ExistsThumbnailFile == true)
+            {
+                <div id="coin-image-administration">
+                    <div>
+                        <img src="/images/coins/@(Model.Coin.Value)_thumb.png" />
+                        <a href="#" data-image-index="1"><span class="glyphicon glyphicon-remove" aria-hidden="true">Удалить</span></a>
+                    </div>
                 </div>
-            </div>
             }
             <div class="form-group">
                 <label asp-for="UploadedImage" class="control-label"></label>
                 <input asp-for="UploadedImage" class="form-control" multiple />
                 <span asp-validation-for="UploadedImage" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Drink.Price" class="control-label"></label>
-                <input asp-for="Drink.Price" class="form-control" />
-                <span asp-validation-for="Drink.Price" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Drink.Stock" class="control-label"></label>
-                <input asp-for="Drink.Stock" class="form-control" />
-                <span asp-validation-for="Drink.Stock" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input asp-for="Drink.DrinkId" class="form-control" type="hidden" />
-                <span asp-validation-for="Drink.DrinkId" class="text-danger"></span>
-            </div>
+            </div>            
             <div class="form-group">
                 <input asp-for="ExistsThumbnailFile" class="form-control" type="hidden" />
                 <span asp-validation-for="ExistsThumbnailFile" class="text-danger"></span>
             </div>
-            @Model.ExistsThumbnailFile
             <div class="form-group">
                 <div class="checkbox">
                     <label>
-                        <input asp-for="Drink.Hidden" type="hidden" />
+                        <input asp-for="Coin.isAvailable"/>
                     </label>
                 </div>
             </div>
@@ -64,10 +51,10 @@
 @section scripts{
     <script>
     $(document).ready(function () {
-        $("#drink-image-administration a").click(function (e) {
+        $("#coin-image-administration a").click(function (e) {
             if (confirm('Вы уверены, что хотите удалить выбранный предварительный просмотр?')) {
           var element = $(this);
-                $.post('@Url.Action("DeleteImage")', { drinkID: $('#Drink_DrinkId').val() }, function (result) {
+                $.post('@Url.Action("DeleteImage")', { coinID: $('#Coin_CoinId').val() }, function (result) {
                     // decrement the product IDs after the removed image
                     var oldUrls = element.parent().nextAll().children("a");
                     for (var i = 0; i < $(oldUrls).length; i++) {

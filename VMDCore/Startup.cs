@@ -38,8 +38,10 @@ namespace VMDCore
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddScoped<IDrinkRepository, DrinkRepository>();
+            services.AddScoped<ICoinRepository, CoinRepository>();
 
             services.AddScoped<IDrinkManager, DrinkManager>();
+            services.AddScoped<ICoinManager, CoinManager>();
 
 
             services.AddMvc();
