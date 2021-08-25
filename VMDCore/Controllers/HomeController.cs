@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using VMDCore.Bussiness.Interfaces;
 using VMDCore.Models;
 
@@ -8,20 +9,22 @@ namespace VMDCore.Controllers
     {
         IDrinkManager drinkManager;
         ICoinManager coinManager;
-        HomeIndexViewModel modelIndex;
+        IOperationManager operationManager;
 
-        public HomeController(IDrinkManager drinkManager, ICoinManager coinManager)
+        public HomeController(IDrinkManager drinkManager, ICoinManager coinManager, IOperationManager operationManager)
         {
             this.drinkManager = drinkManager;
-            this.coinManager = coinManager;            
+            this.coinManager = coinManager;
+            this.operationManager = operationManager;
         }
 
+        [HttpGet]
         public ActionResult Index(HomeIndexViewModel model)
         {
             model.Drinks = drinkManager.GetAllDrink();
             model.Coins = coinManager.GetAllCoin();
-            modelIndex = model;
-            return View(modelIndex);
+            model.Operation = operationManager.FindOperationById(1);
+            return View(model);
         }
 
         /// <summary>
@@ -29,14 +32,16 @@ namespace VMDCore.Controllers
         /// </summary>
         /// <param name="id">ID напитка</param>
         /// <returns></returns>
-        public ActionResult BuyDrink(int id, HomeIndexViewModel model)
+        public ActionResult BuyDrink(int id)
         {
+            var operation = operationManager.FindOperationById(1);
             var drink = drinkManager.FindDrinkById(id);
-            if (drink.Stock > 0 && model.Balance >= drink.Price)
+            if (drink.Stock > 0 && operation.Balance >= drink.Price)
             {
-                model.Balance -= drink.Price;
+                operation.Balance -= drink.Price;
                 drink.Stock -= 1;
                 drinkManager.SaveDrink(drink);
+                operationManager.SaveOperation(operation);
             };
             return RedirectToAction("Index");
         }
@@ -48,13 +53,15 @@ namespace VMDCore.Controllers
         /// <returns></returns>
         public ActionResult AddCoin(int value)
         {
+            var operation = operationManager.FindOperationById(1);
             var coin = coinManager.FindCoinById(value);
             // Если монеты доступны для ввода и их в автомате меньше 200
             if (coin.isAvailable == true && coin.NumberCoins < 200)
             {
                 coin.NumberCoins += 1;
-                modelIndex.Balance += coin.Value;
+                operation.Balance += coin.Value;
                 coinManager.SaveCoin(coin);
+                operationManager.SaveOperation(operation);
             };
             return RedirectToAction("Index");
         }
@@ -63,35 +70,47 @@ namespace VMDCore.Controllers
         /// Получить сдачу
         /// </summary>
         /// <returns></returns>
-        public ActionResult GetChange(HomeIndexViewModel model)
+        public ActionResult GetChange()
         {
+            var operation = operationManager.FindOperationById(1);
             var coin = coinManager.GetAllCoin();
 
             // сортируем монеты в наличии по номиналу от больего к меньшьшему
             coin.Sort((x, y) => y.Value.CompareTo(x.Value));
 
-            if (model.Balance > 0)
+            if (operation.Balance > 0)
             {
                 foreach (var p in coin)
                 {
-                    // Если баланс больше суммы монет с текущим номиналом
-                    if (model.Balance >= p.SumCoins)
+                    // Если баланс монет с текущим номиналом больше суммы монет с текущим номиналом
+                    if (p.Value <= operation.Balance && p.NumberCoins > 0)
                     {
-                        // Сколько монет текущего номинала можем выдать 
-                        int numberCoinsTemp = model.Balance % p.SumCoins;
-                        // Сколько списать с баланса после выдачи монет
-                        int sumCoinsTemp = numberCoinsTemp;
-                        // Выдаем монетки и списываем с баланса
-                        model.Balance -= numberCoinsTemp;
-                        // Уменьшаем количество монет в автомате
-                        p.NumberCoins -= numberCoinsTemp;
+                        // Сколько монет текущего номинала максимум Нужно выдать
+                        int maxNumberCoinsTemp = (int)Math.Floor((double)(operation.Balance / p.Value));
+                        // Если монет в хранилище больше чем необх. кол-во, выдаем необх кол-во
+                        // в противном случае отдаем все.
+                        if (p.NumberCoins > maxNumberCoinsTemp)
+                        {
+                            p.NumberCoins -= maxNumberCoinsTemp;
+
+                            // Выдаем монетки и списываем с баланса
+                            operation.Balance -= maxNumberCoinsTemp * p.Value;
+                        } else
+                        {
+                            p.NumberCoins -= p.NumberCoins;
+
+                            // Выдаем монетки и списываем с баланса
+                            operation.Balance -= p.NumberCoins * p.Value;
+                        }
+                        
                         // обновляем монеты в бд
                         coinManager.SaveCoin(p);
-                        if (model.Balance > 0)
+                        operationManager.SaveOperation(operation);
+                        if (operation.Balance > 0)
                         {
                             break;
                         }
-                    }
+                    }                    
                 }
             }
             return RedirectToAction("Index");

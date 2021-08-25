@@ -10,6 +10,7 @@ namespace VMDCore.Models
     {
         public List<Drink> Drinks { get; set; }
         public List<Coin> Coins { get; set; }
-        public int Balance { get; set; }
+        public Operation Operation { get; set; }
+
     }
 }

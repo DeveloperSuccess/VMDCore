@@ -39,9 +39,11 @@ namespace VMDCore
 
             services.AddScoped<IDrinkRepository, DrinkRepository>();
             services.AddScoped<ICoinRepository, CoinRepository>();
+            services.AddScoped<IOperationRepository, OperationRepository>();
 
             services.AddScoped<IDrinkManager, DrinkManager>();
             services.AddScoped<ICoinManager, CoinManager>();
+            services.AddScoped<IOperationManager, OperationManager>();
 
 
             services.AddMvc();

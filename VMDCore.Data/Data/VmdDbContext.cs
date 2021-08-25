@@ -13,7 +13,18 @@ namespace VMDCore.Data
         {
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Operation>().HasData
+              (
+                  new Operation() { OperationId = 1, Balance=0, Message="" }
+              );
+        }
+
         public DbSet<Drink> Drinks { get; set; }
         public DbSet<Coin> Coins { get; set; }
+        public DbSet<Operation> Operations { get; set; }
     }
 }

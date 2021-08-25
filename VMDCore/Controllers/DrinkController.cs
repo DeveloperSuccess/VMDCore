@@ -21,11 +21,13 @@ namespace VMDCore.Controllers
             this.drinkManager = drinkManager;            
         }
 
+        [HttpGet]
         public IActionResult Index(DrinkIndexViewModel model)
         {
             model.Drinks = drinkManager.GetAllDrink();
             return View(model);
         }
+
 
         [HttpGet]
         public IActionResult Manage(int id)
