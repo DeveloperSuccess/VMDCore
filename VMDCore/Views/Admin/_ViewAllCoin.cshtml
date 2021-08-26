@@ -1,0 +1,55 @@
+﻿@model List<VMDCore.Data.Models.Coin>
+
+<div class="col-md-12">
+    <h1 class="text-center"><i class="fas fa-comments-dollar text-success"></i> Монеты</h1>
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Value)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].NumberCoins)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].SumCoins)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].isAvailable)
+                </th>
+                <th>
+                    <a onclick="showInPopup('@Url.Action("AddOrEdit","Transaction",null,Context.Request.Scheme)','New Transaction')" class="btn btn-success text-white"><i class="fas fa-random"></i>Добавить монету</a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var p in Model)
+            {
+                <tr>
+                    <td>
+                        @p.Value
+                    </td>
+                    <td>
+                        @p.NumberCoins
+                    </td>
+                    <td>
+                        @p.SumCoins
+                    </td>
+                    <td>
+                        @p.isAvailable
+                    </td>
+                    <td>
+                        <div>
+                            <a onclick="showInPopup('','Update Transaction')" class="btn btn-info text-white"><i class="fas fa-pencil-alt"></i> Изменить</a>
+                            <form asp-action="Delete" asp-route-id="" onsubmit="return jQueryAjaxDelete(this)" class="d-inline">
+                                <input type="hidden" />
+                                <input type="submit" value="Удалить" class="btn btn-danger" />
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

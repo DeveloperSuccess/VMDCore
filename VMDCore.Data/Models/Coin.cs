@@ -26,6 +26,7 @@ namespace VMDCore.Data.Models
         public bool isAvailable { get; set; }
 
         [NotMapped]
+        [Display(Name = "Сумма монет")]
         public int SumCoins => Value * NumberCoins;
     }
 }
