@@ -1,7 +1,8 @@
 ﻿@model VMDCore.Data.Models.Drink
 
-<div class="thumbnail">
-    <a asp-action="BuyDrink" asp-controller="Home" asp-route-id="@Model.DrinkId">
+<div class="thumbnailDrink">
+    @{ string isAvailable = Model.Stock == 0 ? "adisabled" : ""; }
+    <a asp-action="BuyDrink" asp-controller="Home" asp-route-id="@Model.DrinkId" class="@isAvailable">
         <div class="product-image text-center">
             @{ string imagePath = Model.Stock > 0 ? "~/images/drinks/" + Model.DrinkId + "_thumb.png" : "~/images/drinks/no_preview.png";}
             <img class="product-image-background" src=@Url.Content(imagePath) alt="@Model.Title">

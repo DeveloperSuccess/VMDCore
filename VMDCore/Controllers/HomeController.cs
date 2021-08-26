@@ -106,7 +106,7 @@ namespace VMDCore.Controllers
                         // обновляем монеты в бд
                         coinManager.SaveCoin(p);
                         operationManager.SaveOperation(operation);
-                        if (operation.Balance > 0)
+                        if (operation.Balance == 0)
                         {
                             break;
                         }

@@ -96,3 +96,25 @@ body {
 .product-image-background {
     max-width: 100%;
 }
+.thumbnailCoin {
+    border: outset;
+    border-radius: 10px;
+    margin: 5px;
+}
+.thumbnailDrink {
+    border: outset;
+    border-radius: 10px;
+}
+.adisabled {
+    pointer-events: none; /* делаем элемент неактивным для взаимодействия */
+    cursor: default; /*  курсор в виде стрелки */
+    color: black;
+}
+
+.instruction {
+    border: dashed;
+    color: brown;
+}
+.instruction ol {
+    padding-inline-start: 20px;
+}

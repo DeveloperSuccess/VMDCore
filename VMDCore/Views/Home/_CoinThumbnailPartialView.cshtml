@@ -1,20 +1,11 @@
 ﻿@model VMDCore.Data.Models.Coin
 
-<div class="thumbnail">
-    <a asp-action="AddCoin" asp-controller="Home" asp-route-value="@Model.Value">
+<div class="thumbnailCoin">
+    @{ string isAvailable = Model.isAvailable == false ? "adisabled" : ""; }
+    <a asp-action="AddCoin" asp-controller="Home" asp-route-value="@Model.Value" class="@isAvailable">
         <div class="product-image text-center">
-            @{ string imagePath = Model.isAvailable == true ? "~/images/coins/" + Model.Value + "_thumb.png" : "~/images/drinks/no_preview.png";}
+            @{ string imagePath = Model.isAvailable == true ? "~/images/coins/" + Model.Value + "_thumb.png" : "~/images/coins/noAvailable.png";}
             <img class="product-image-background" src=@Url.Content(imagePath) alt="@Model.Value рублей">
-        </div>
-        <div class="product-title">
-            <h4 class="text-center">
-                @Model.SumCoins
-            </h4>
-        </div>
-        <div class="product-title">
-            <h4 class="text-center">
-                @Model.NumberCoins
-            </h4>
         </div>
     </a>
 </div>
