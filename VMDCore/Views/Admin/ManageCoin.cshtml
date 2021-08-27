@@ -1,14 +1,10 @@
 ﻿@model VMDCore.Models.ManageCoinViewModel
 
-@{
-    ViewData["Title"] = Model.FormCaption;
-}
-
-<h2>@ViewData["Title"]</h2>
+@{ Layout = null; }
 
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Manage" enctype="multipart/form-data">
+    <div class="col-md-12">
+        <form asp-action="ManageCoin" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @ViewBag.ExistsThumbnailFile
             <div class="form-group">
@@ -47,7 +43,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <input type="submit" value="Сохранить" class="btn btn-default" />
+                <input type="submit" value="Сохранить" class="btn btn-success btn-block" />
             </div>
         </form>
     </div>

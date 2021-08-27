@@ -1,7 +1,0 @@
-﻿@model VMDCore.Models.DrinkIndexViewModel
-@{
-    foreach (var p in Model.Drinks)
-    {
-        @await Html.PartialAsync("_DrinkThumbnailPartialView", p)
-    }
-}

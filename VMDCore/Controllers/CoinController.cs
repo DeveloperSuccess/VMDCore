@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ExpressiveAnnotations;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -22,9 +23,8 @@ namespace VMDCore.Controllers
         }
 
         public IActionResult Index(CoinIndexViewModel model)
-        {
+        {            
             model.Coins = coinManager.GetAllCoin();
-
             return View(model);
         }
 
@@ -50,6 +50,46 @@ namespace VMDCore.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public IActionResult Manage(ManageCoinViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                model.FormCaption = model.Coin.Value == 0
+                   ? "Добавить монету"
+                    : "Редактировать монету";
+                this.AddFlashMessage("Неверные параметры монеты!", FlashMessageType.Danger);
+                return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "Manage", model) });
+            }
+
+            if (model.ExistsThumbnailFile)
+            {
+                if (model.UploadedImage != null)
+                {
+                    coinManager.SaveCoin(model.Coin);
+                    coinManager.SaveCoinImage(model.Coin, model.UploadedImage);
+                }
+                else
+                {
+                    coinManager.SaveCoin(model.Coin);
+                }
+            }
+            else
+            {
+                if (model.UploadedImage != null)
+                {
+                    coinManager.SaveCoin(model.Coin);
+                    coinManager.SaveCoinImage(model.Coin, model.UploadedImage);
+                }
+            }
+            this.AddFlashMessage("Монета была успешно сохранена.", FlashMessageType.Success);
+
+            var modelCoins = coinManager.GetAllCoin();
+            return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllCoin", modelCoins) });
+        }
+
+
+        /*
         [HttpPost]
         public IActionResult Manage(ManageCoinViewModel model)
         {
@@ -86,6 +126,7 @@ namespace VMDCore.Controllers
 
             return RedirectToAction(actionName: "Index", controllerName: "Home");
         }
+        */
         public void DeleteImage(int coinId)
         {
             coinManager.RemoveThumbnailFile(coinId);

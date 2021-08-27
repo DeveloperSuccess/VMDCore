@@ -16,4 +16,8 @@
     <ProjectReference Include="..\Bussiness\VMDCore.Bussiness.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Coin\" />
+  </ItemGroup>
+
 </Project>
