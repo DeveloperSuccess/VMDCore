@@ -63,6 +63,8 @@ namespace VMDCore.Controllers
                 coinManager.SaveCoin(coin);
                 operationManager.SaveOperation(operation);
             };
+            operation.Message = "";
+            operationManager.SaveOperation(operation);
             return RedirectToAction("Index");
         }
 
@@ -80,38 +82,68 @@ namespace VMDCore.Controllers
 
             if (operation.Balance > 0)
             {
+                int tempBalance = operation.Balance;
                 foreach (var p in coin)
                 {
                     // Если баланс монет с текущим номиналом больше суммы монет с текущим номиналом
-                    if (p.Value <= operation.Balance && p.NumberCoins > 0)
+                    if (p.Value <= operation.Balance)
                     {
-                        // Сколько монет текущего номинала максимум Нужно выдать
-                        int maxNumberCoinsTemp = (int)Math.Floor((double)(operation.Balance / p.Value));
-                        // Если монет в хранилище больше чем необх. кол-во, выдаем необх кол-во
-                        // в противном случае отдаем все.
-                        if (p.NumberCoins > maxNumberCoinsTemp)
+                        if (p.NumberCoins > 0)
                         {
-                            p.NumberCoins -= maxNumberCoinsTemp;
+                            // Сколько монет текущего номинала максимум Нужно выдать
+                            int maxNumberCoinsTemp = (int)Math.Floor((double)(operation.Balance / p.Value));
+                            // Если монет в хранилище больше чем необх. кол-во, выдаем необх кол-во
+                            // в противном случае отдаем все.
+                            if (p.NumberCoins > maxNumberCoinsTemp)
+                            {
+                                p.NumberCoins -= maxNumberCoinsTemp;
 
-                            // Выдаем монетки и списываем с баланса
-                            operation.Balance -= maxNumberCoinsTemp * p.Value;
-                        } else
-                        {
-                            p.NumberCoins -= p.NumberCoins;
+                                // Выдаем монетки и списываем с баланса
+                                operation.Balance -= maxNumberCoinsTemp * p.Value;
+                                operation.Message += maxNumberCoinsTemp + " Coin номиналом " + p.Value;
+                            }
+                            else
+                            {
+                                // Выдаем монетки и списываем с баланса
+                                operation.Balance -= p.NumberCoins * p.Value;
+                                operation.Message += p.NumberCoins + " Coin номиналом " + p.Value;
 
-                            // Выдаем монетки и списываем с баланса
-                            operation.Balance -= p.NumberCoins * p.Value;
+                                p.NumberCoins -= p.NumberCoins;
+                            }
+
+                            // обновляем монеты в бд
+                            coinManager.SaveCoin(p);
+
+                            if (operation.Balance > 0)
+                            {
+                                if (p.Value != 1)
+                                {
+                                    operation.Message += ", ";
+                                }
+                            }
                         }
-                        
-                        // обновляем монеты в бд
-                        coinManager.SaveCoin(p);
+
+                            if (operation.Balance > 0)
+                            {
+                                if (p.Value == 1)
+                                {
+                                    operation.Message += " осталась невыданная сдача " + operation.Balance + " руб.";
+                                }
+                            }
+ 
+
                         operationManager.SaveOperation(operation);
                         if (operation.Balance == 0)
                         {
+                            operation.Message += ".";
+                            operationManager.SaveOperation(operation);
                             break;
                         }
-                    }                    
+                    }
                 }
+                tempBalance -= operation.Balance;
+                operation.Message = tempBalance  + " рублей, из которых " + operation.Message;
+                operationManager.SaveOperation(operation);
             }
             return RedirectToAction("Index");
         }

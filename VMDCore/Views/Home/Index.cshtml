@@ -50,7 +50,12 @@
                 <h4 class="text-center">
                     @Html.ActionLink("Забрать сдачу", "GetChange", "Home")
                 </h4>
-            </div>
+            </div>          
+            <div class="product-title">
+                <h4 class="text-center">
+                    Выдана сдача: @Model.Operation.Message
+                </h4>
+            </div>            
         </div>
     </div>
 </div>

@@ -29,15 +29,20 @@
                 <label asp-for="UploadedImage" class="control-label"></label>
                 <input asp-for="UploadedImage" class="form-control" multiple />
                 <span asp-validation-for="UploadedImage" class="text-danger"></span>
-            </div>            
+            </div>
             <div class="form-group">
                 <input asp-for="ExistsThumbnailFile" class="form-control" type="hidden" />
                 <span asp-validation-for="ExistsThumbnailFile" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Coin.NumberCoins" class="control-label"></label>
+                <input asp-for="Coin.NumberCoins" class="form-control" />
+                <span asp-validation-for="Coin.NumberCoins" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <div class="checkbox">
                     <label>
-                        <input asp-for="Coin.isAvailable"/>
+                        <input asp-for="Coin.isAvailable" />
                     </label>
                 </div>
             </div>

@@ -55,7 +55,7 @@ namespace VMDCore
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IOperationManager operationManager)
         {
             if (env.IsDevelopment())
             {
@@ -72,6 +72,11 @@ namespace VMDCore
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            var operation = operationManager.FindOperationById(1);
+            operation.Balance = 0;
+            operation.Message = "";
+            operationManager.SaveOperation(operation);
 
             app.UseEndpoints(endpoints =>
             {
