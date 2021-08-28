@@ -39,13 +39,13 @@ jQueryAjaxPost = form => {
             processData: false,
             success: function (res) {
                 if (res.isValid) {
-                    $('#view-all').html(res.html)
-                    $('#form-modal .modal-body').html('');
-                    $('#form-modal .modal-title').html('');
-                    $('#form-modal').modal('hide');
+                    $('#viewAllCoin').html(res.html)
+                    $('#coinModal .modal-body').html('');
+                    $('#coinModal .modal-title').html('');
+                    $('#coinModal').modal('hide');
                 }
                 else
-                    $('#form-modal .modal-body').html(res.html);
+                    $('#coinModal .modal-body').html(res.html);
             },
             error: function (err) {
                 console.log(err)

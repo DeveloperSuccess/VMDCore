@@ -59,7 +59,7 @@ namespace VMDCore.Controllers
                 model.FormCaption = model.Coin.Value == 0
                    ? "Добавить монету"
                     : "Редактировать монету";
-                return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "Manage", model) });
+                return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "ManageCoin", model) });
             }
 
             if (model.ExistsThumbnailFile)

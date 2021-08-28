@@ -14,7 +14,7 @@ namespace VMDCore.Data.Models
         [DatabaseGenerated(DatabaseGeneratedOption.None), Key()]
         [Required(ErrorMessage = "Введите номинал монеты")]
         [Display(Name = "Номинал монеты")]
-        [Range(0, int.MaxValue, ErrorMessage = "Номинал монеты не может быть отрицательным")]
+        [Range(1, int.MaxValue, ErrorMessage = "Номинал монеты не может быть отрицательным")]
         public int Value { get; set; }
 
         [Required(ErrorMessage = "Введите количество доступных монет в аппарате")]
