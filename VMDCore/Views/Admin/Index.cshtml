@@ -1,18 +1,35 @@
 ﻿@model VMDCore.Models.AdminViewModel
 @{ ViewData["Title"] = "Index"; }
 
-
+<div id="viewAllDrink">
     @{await Html.RenderPartialAsync("_ViewAllDrink", @Model.Drinks);}
-
-<div id="viewAllCoin">
-    @{await Html.RenderPartialAsync("_ViewAllCoin", @Model.Coins);}
 </div>
+
+    <div id="viewAllCoin">
+        @{await Html.RenderPartialAsync("_ViewAllCoin", @Model.Coins);}
+    </div>
 
     <div class="modal fade" id="coinModal" tabindex="-1" role="dialog" aria-labelledby="coinModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="coinModalLabel"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="drinkModal" tabindex="-1" role="dialog" aria-labelledby="drinkModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="drinkModalLabel"></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

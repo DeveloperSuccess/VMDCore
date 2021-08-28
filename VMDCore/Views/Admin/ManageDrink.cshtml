@@ -1,28 +1,24 @@
 ﻿@model VMDCore.Models.ManageDrinkViewModel
 
-@{
-    ViewData["Title"] = Model.FormCaption;
-    Layout = null;
-}
-
-<h2>@ViewData["Title"]</h2>
+@{ Layout = null; }
 
 <div class="row">
     <div class="col-md-12">
-        <form asp-action="Manage" enctype="multipart/form-data">
+        <form asp-action="ManageDrink" enctype="multipart/form-data" onsubmit="return jQueryAjaxPostDrink(this);">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Drink.Title" class="control-label"></label>
                 <input asp-for="Drink.Title" class="form-control" />
                 <span asp-validation-for="Drink.Title" class="text-danger"></span>
             </div>
-            @if (Model.ExistsThumbnailFile == true) {
-            <div id="drink-image-administration">
-                <div>
-                    <img src="/images/drinks/@(Model.Drink.DrinkId)_thumb.png"/>
-                    <a href="#" data-image-index="1"><span class="glyphicon glyphicon-remove" aria-hidden="true">Удалить</span></a>
+            @if (Model.ExistsThumbnailFile == true)
+            {
+                <div id="drink-image-administration">
+                    <div>
+                        <img src="/images/drinks/@(Model.Drink.DrinkId)_thumb.png" />
+                        <a href="#" data-image-index="1"><span class="glyphicon glyphicon-remove" aria-hidden="true">Удалить</span></a>
+                    </div>
                 </div>
-            </div>
             }
             <div class="form-group">
                 <label asp-for="UploadedImage" class="control-label"></label>
@@ -47,7 +43,6 @@
                 <input asp-for="ExistsThumbnailFile" class="form-control" type="hidden" />
                 <span asp-validation-for="ExistsThumbnailFile" class="text-danger"></span>
             </div>
-            @Model.ExistsThumbnailFile
             <div class="form-group">
                 <div class="checkbox">
                     <label>
@@ -56,7 +51,9 @@
                 </div>
             </div>
             <div class="form-group">
-                <input type="submit" value="Сохранить" class="btn btn-default" />
+                <div class="col-md-6 offset-md-3">
+                    <input type="submit" value="Сохранить" class="btn btn-success btn-block" />
+                </div>
             </div>
         </form>
     </div>
@@ -68,7 +65,7 @@
         $("#drink-image-administration a").click(function (e) {
             if (confirm('Вы уверены, что хотите удалить выбранный предварительный просмотр?')) {
           var element = $(this);
-                $.post('@Url.Action("DeleteImage")', { drinkID: $('#Drink_DrinkId').val() }, function (result) {
+                $.post('@Url.Action("DeleteImageDrink")', { drinkID: $('#Drink_DrinkId').val() }, function (result) {
                     // decrement the product IDs after the removed image
                     var oldUrls = element.parent().nextAll().children("a");
                     for (var i = 0; i < $(oldUrls).length; i++) {

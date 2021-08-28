@@ -1,9 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using VMDCore.Bussiness.Interfaces;
 using VMDCore.Data.Models;
 using VMDCore.Models;
@@ -86,73 +82,88 @@ namespace VMDCore.Controllers
             return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllCoin", coinManager.GetAllCoin()) });
         }
 
-        // GET: AdminController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: AdminController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: AdminController/Create
+        // POST: Admin/DeleteConfirmedCoin/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult DeleteConfirmedCoin(int value)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            coinManager.CleanCoin(value, true);
+
+            return Json(new { html = Helper.RenderRazorViewToString(this, "_ViewAllCoin", coinManager.GetAllCoin()) });
         }
 
-        // GET: AdminController/Edit/5
-        public ActionResult Edit(int id)
+
+        [HttpGet]
+        public IActionResult ManageDrink(int id)
         {
-            return View();
+            var model = new ManageDrinkViewModel
+            {
+                FormCaption = id == 0
+                     ? "Добавить напиток"
+                     : "Редактировать напиток",
+                ExistsThumbnailFile = drinkManager.ExistsThumbnailFile(id)
+            };
+
+            model.Drink = id != 0
+                ? drinkManager.FindDrinkById(id)
+                    ?? throw new NullReferenceException("Напиток не найден.")
+                : new Drink();
+
+            return View(model);
         }
 
-        // POST: AdminController/Edit/5
+        [HttpPost]
+        public IActionResult ManageDrink(ManageDrinkViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                model.FormCaption = model.Drink.DrinkId == 0
+                   ? "Добавить напиток"
+                    : "Редактировать напиток";
+                return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "ManageDrink", model) });
+            }
+
+            if (model.ExistsThumbnailFile)
+            {
+                if (model.UploadedImage != null)
+                {
+                    drinkManager.SaveDrink(model.Drink);
+                    drinkManager.SaveDrinkImage(model.Drink, model.UploadedImage);
+                }
+                else
+                {
+                    drinkManager.SaveDrink(model.Drink);
+                }
+            }
+            else
+            {
+                if (model.UploadedImage != null)
+                {
+                    drinkManager.SaveDrink(model.Drink);
+                    drinkManager.SaveDrinkImage(model.Drink, model.UploadedImage);
+                }
+            }
+
+            return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllDrink", drinkManager.GetAllDrink()) });
+        }
+
+        // POST: Admin/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult DeleteConfirmedDrink(int id)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            drinkManager.CleanDrink(id, true);
+            return Json(new { html = Helper.RenderRazorViewToString(this, "_ViewAllDrink", drinkManager.GetAllDrink()) });
         }
 
-        // GET: AdminController/Delete/5
-        public ActionResult Delete(int id)
+        public void DeleteImageDrink(int drinkId)
         {
-            return View();
+            drinkManager.RemoveThumbnailFile(drinkId);
         }
 
-        // POST: AdminController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public void DeleteImageCoin(int value)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            drinkManager.RemoveThumbnailFile(value);
         }
     }
 }

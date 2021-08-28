@@ -35,7 +35,7 @@ namespace VMDCore.Bussiness.Managers
         {
             return coinRepository.FindById(id);
         }
-
+  
         public void SaveCoin(Coin coin)
         {
             if (coin.Value != 0)
@@ -85,7 +85,7 @@ namespace VMDCore.Bussiness.Managers
             coinRepository.Update(coin);
         }
 
-        private void CleanCoin(int coinId, bool removeImages = true)
+        public void CleanCoin(int coinId, bool removeImages = true)
         {
             if (removeImages)
             {

@@ -82,7 +82,7 @@ namespace VMDCore.Bussiness.Managers
             drinkRepository.Update(drink);
         }
 
-        private void CleanDrink(int drinkId, bool removeImages = true)
+        public void CleanDrink(int drinkId, bool removeImages = true)
         {
             if (removeImages)
             {

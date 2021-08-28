@@ -41,10 +41,10 @@
                     <td>
                         <div>
                             <a onclick="showInPopup('@Url.Action("ManageCoin","Admin",new {id=p.Value})','Редактировать монету')" class="btn btn-info text-white"><i class="fas fa-pencil-alt"></i>Изменить</a>
-                            <form asp-action="Delete" asp-route-id="" onsubmit="return jQueryAjaxDelete(this)" class="d-inline">
-                                <input type="hidden" />
+                            <form asp-action="DeleteConfirmedCoin" asp-route-value="@p.Value" onsubmit="return jQueryAjaxDelete(this)" class="d-inline">
+                                <input type="hidden" asp-for="@p.Value" />
                                 <input type="submit" value="Удалить" class="btn btn-danger" />
-                            </form>
+                            </form>       
                         </div>
                     </td>
                 </tr>

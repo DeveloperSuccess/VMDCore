@@ -36,6 +36,7 @@
                 <span asp-validation-for="Coin.NumberCoins" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Coin.isAvailable" class="control-label"></label>
                 <div class="checkbox">
                     <label>
                         <input asp-for="Coin.isAvailable" />
@@ -52,27 +53,5 @@
 </div>
 
 @section scripts{
-    <script>
-    $(document).ready(function () {
-        $("#coin-image-administration a").click(function (e) {
-            if (confirm('Вы уверены, что хотите удалить выбранный предварительный просмотр?')) {
-          var element = $(this);
-                $.post('@Url.Action("DeleteImage")', { coinID: $('#Coin_CoinId').val() }, function (result) {
-                    // decrement the product IDs after the removed image
-                    var oldUrls = element.parent().nextAll().children("a");
-                    for (var i = 0; i < $(oldUrls).length; i++) {
-                        var newIndex = $(oldUrls[i]).data('image-index') - 1;
-                        $(oldUrls[i]).data('image-index', newIndex);
-                    }
-                    // remove the image preview
-                    element.parent().remove();
-
-                    var ExistsThumbnailFile = $('#ExistsThumbnailFile');
-                    ExistsThumbnailFile.val(false);
-                });
-
-            }
-        });
-    });
-    </script>
+  
 }

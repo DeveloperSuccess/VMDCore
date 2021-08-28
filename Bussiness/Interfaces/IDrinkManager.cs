@@ -16,6 +16,7 @@ namespace VMDCore.Bussiness.Interfaces
         void RemoveThumbnailFile(int drinkId);
         List<Drink> GetAllDrink();
         bool ExistsThumbnailFile(int drinkId);
+        void CleanDrink(int drinkId, bool removeImages = true);
     }
 
 }

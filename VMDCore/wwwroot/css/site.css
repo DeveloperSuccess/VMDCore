@@ -82,9 +82,34 @@ body {
     position: absolute;
     right: 5px;
     top: 5px;
+    background: white;
 }
 
 #drink-image-administration > div {
+    display: inline-block;
+    width: 138px;
+    text-align: center;
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin-bottom: 10px;
+    position: relative;
+}
+#coin-image-administration img {
+    width: auto;
+    height: auto;
+    max-width: 128px;
+    max-height: 128px;
+    vertical-align: middle;
+}
+
+#coin-image-administration a {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    background: white;
+}
+
+#coin-image-administration > div {
     display: inline-block;
     width: 138px;
     text-align: center;
