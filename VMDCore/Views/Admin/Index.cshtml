@@ -1,12 +1,21 @@
 ﻿@model VMDCore.Models.AdminViewModel
 @{ ViewData["Title"] = "Index"; }
 
-<div id="viewAllDrink">
-    @{await Html.RenderPartialAsync("_ViewAllDrink", @Model.Drinks);}
+<div id="viewAllDrink">    
+    @{
+        if (@Model.Drinks != null)
+        {
+            await Html.RenderPartialAsync("_ViewAllDrink", @Model.Drinks);
+        }
+    }
 </div>
 
     <div id="viewAllCoin">
-        @{await Html.RenderPartialAsync("_ViewAllCoin", @Model.Coins);}
+        @{
+            if (@Model.Coins != null)
+            {
+                await Html.RenderPartialAsync("_ViewAllCoin", @Model.Coins); }
+        }
     </div>
 
     <div class="modal fade" id="coinModal" tabindex="-1" role="dialog" aria-labelledby="coinModalLabel" aria-hidden="true">

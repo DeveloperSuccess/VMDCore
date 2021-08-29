@@ -18,10 +18,13 @@ namespace VMDCore.Controllers
         }
 
         // GET: AdminController
-        public ActionResult Index(AdminViewModel model)
+        public ActionResult Index(AdminViewModel model, string key)
         {
-            model.Drinks = drinkManager.GetAllDrink();
-            model.Coins = coinManager.GetAllCoin();
+            if (key == "goto")
+            {
+                model.Drinks = drinkManager.GetAllDrink();
+                model.Coins = coinManager.GetAllCoin();                
+            }
             return View(model);
         }
 
