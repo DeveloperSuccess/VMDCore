@@ -21,9 +21,9 @@ namespace VMDCore.Controllers
         [HttpGet]
         public ActionResult Index(HomeIndexViewModel model)
         {
-           model.Drinks = drinkManager.GetAllDrink();
-           model.Coins = coinManager.GetAllCoin();
-           model.Operation = operationManager.FindOperationById(1);
+            model.Drinks = drinkManager.GetAllDrink();
+            model.Coins = coinManager.GetAllCoin();
+            model.Operation = operationManager.FindOperationById(1);
             return View(model);
         }
 

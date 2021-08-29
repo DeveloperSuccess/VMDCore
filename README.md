@@ -1,1 +1,16 @@
-Test
+<h1>Веб-приложение «Автомат по продаже напитков»</h1>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/esKCcargpRw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+[Тестовое задание](https://drive.google.com/file/d/1Cfg2YXJEuoIfsfkOVwUvd9bUfq4sz1XF/view?usp=sharing). Веб-приложение имитирует работу автомата по продаже напитков. 
+
+Проект создан на .net Core 5.0. Доступ к данным осуществляется с использованием трехуровневой архитектуры.
+
+Административная панель находится по адресу "/Admin?key=goto", где "?key=goto" - секретный ключ.
+
+Пользовательская панель реализована без использования Ajax. Отправка, получение и обновление данных в административной панели выполняется посредством Ajax. 
+
+БД расположена в папке VMDCore\App_Data. Она уже заполнена тестовыми данными. Подключение осуществляется с помощью директивы AttachDbFilename.
+Git не захватывает БД, отдельно ссылка на базу: [База данных](https://drive.google.com/file/d/1AbUr-wkB4paUQiWUuYI7go1NOHZD1LZo/view?usp=sharing)
+
+Из необязательных требований реализовано следующее: «при возврате сдачи показывать количество и номинал монет».
