@@ -22,19 +22,26 @@ namespace VMDCore
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public IConfiguration Configuration { get; }
+
+        private readonly string _contentRootPath;
+
+        public Startup(IConfiguration configuration, IHostEnvironment env)
         {
             Configuration = configuration;
+            _contentRootPath = env.ContentRootPath;
         }
 
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var dbConnectionString = DataUtils.ResolveDbConnectionString(Configuration, _contentRootPath);
+            /*  services.AddDbContext<VmdDbContext>(options =>
+                  options.UseLazyLoadingProxies().UseSqlServer(
+                      Configuration.GetConnectionString("DefaultConnection"))); */
             services.AddDbContext<VmdDbContext>(options =>
-                options.UseLazyLoadingProxies().UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                  options.UseLazyLoadingProxies().UseSqlServer(dbConnectionString));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddScoped<IDrinkRepository, DrinkRepository>();
