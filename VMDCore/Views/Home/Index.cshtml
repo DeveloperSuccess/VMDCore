@@ -4,17 +4,14 @@
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-lg-8 col-md-8">
             <div class="row">
-                @{ if (Model.Drinks != null)
-
-                        foreach (var p in Model.Drinks)
-                        {
+                @foreach (var p in Model.Drinks)
+                {
                     <div id="partial" class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 
-                          @{await Html.RenderPartialAsync("_DrinkThumbnailPartialView", p);}
-
+                        @{await Html.RenderPartialAsync("_DrinkThumbnailPartialView", p);}
                     </div>
-                                  }
-                    }
+                }
+
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-sm-4 col-lg-4 col-md-4">
@@ -37,20 +34,16 @@
                 </ol>
             </div>
             <div class="row">
-                @{ 
-                    if (Model.Coins != null) {
-                        foreach (var p in Model.Coins)
-                        {
+                @foreach (var p in Model.Coins)
+                {
                     <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
-                        @{await Html.RenderPartialAsync("_CoinThumbnailPartialView", p); }
+                        @await Html.PartialAsync("_CoinThumbnailPartialView", p)
                     </div>
-                                    }
-                                }
-                            }
+                }
             </div>
             <div class="product-title">
                 <h4 class="text-center">
-                    Баланс: @if (Model.Operation != null) {@Model.Operation.Balance}
+                    Баланс: @Model.Operation.Balance
                 </h4>
             </div>
             <div class="product-title">
@@ -60,7 +53,7 @@
             </div>          
             <div class="product-title">
                 <h4 class="text-center">
-                    Выдана сдача: @if (Model.Operation != null) {@Model.Operation.Message}
+                    Выдана сдача: @Model.Operation.Message
                 </h4>
             </div>            
         </div>
