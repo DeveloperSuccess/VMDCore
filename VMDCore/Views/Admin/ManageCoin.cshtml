@@ -17,7 +17,7 @@
                 <div id="coin-image-administration">
                     <div>
                         <img src="/images/coins/@(Model.Coin.Value)_thumb.png" />
-                        <a href="#" data-image-index="1"><span class="glyphicon glyphicon-remove" aria-hidden="true">Удалить</span></a>
+                        <a class="btn" onclick="DeleteImageCoin('@Url.Action("DeleteImageCoin","Admin",new {coin=Model.Coin.Value})',@Model.Coin.Value)" data-image-index="1">Удалить</a>
                     </div>
                 </div>
             }
@@ -51,7 +51,3 @@
 </form>
     </div>
 </div>
-
-@section scripts{
-  
-}

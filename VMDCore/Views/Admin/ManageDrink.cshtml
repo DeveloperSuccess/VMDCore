@@ -16,7 +16,7 @@
                 <div id="drink-image-administration">
                     <div>
                         <img src="/images/drinks/@(Model.Drink.DrinkId)_thumb.png" />
-                        <a href="#" data-image-index="1"><span class="glyphicon glyphicon-remove" aria-hidden="true">Удалить</span></a>
+                        <a class="btn" onclick="DeleteImageDrink('@Url.Action("DeleteImageDrink","Admin",new {drinkId=Model.Drink.DrinkId})',@Model.Drink.DrinkId)" data-image-index="1">Удалить</a>
                     </div>
                 </div>
             }
@@ -58,29 +58,3 @@
         </form>
     </div>
 </div>
-
-@section scripts{
-    <script>
-    $(document).ready(function () {
-        $("#drink-image-administration a").click(function (e) {
-            if (confirm('Вы уверены, что хотите удалить выбранный предварительный просмотр?')) {
-          var element = $(this);
-                $.post('@Url.Action("DeleteImageDrink")', { drinkID: $('#Drink_DrinkId').val() }, function (result) {
-                    // decrement the product IDs after the removed image
-                    var oldUrls = element.parent().nextAll().children("a");
-                    for (var i = 0; i < $(oldUrls).length; i++) {
-                        var newIndex = $(oldUrls[i]).data('image-index') - 1;
-                        $(oldUrls[i]).data('image-index', newIndex);
-                    }
-                    // remove the image preview
-                    element.parent().remove();
-
-                    var ExistsThumbnailFile = $('#ExistsThumbnailFile');
-                    ExistsThumbnailFile.val(false);
-                });
-
-            }
-        });
-    });
-    </script>
-}

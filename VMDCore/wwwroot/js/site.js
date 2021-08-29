@@ -154,26 +154,38 @@ jQueryAjaxDeleteDrink = form => {
     return false;
 }
 
+DeleteImageCoin = (url, value) => {
+    $.ajax({
+        type: 'GET',
+        url: url,
+        success: function (res) {
+            if (confirm('Вы уверены, что хотите удалить выбранный предварительный просмотр?')) {
+                $.post(url, { value: value }, function (result) { 
+                    var divCoinImage = $('#coin-image-administration');
+                    divCoinImage.remove();
 
-$(document).ready(function () {
-    $("#coin-image-administration a").click(function (e) {
-        console.log('Привет от JavaScript!');
-        if (confirm('Вы уверены, что хотите удалить выбранный предварительный просмотр?')) {
-            var element = $(this);
-            $.post('@Url.Action("DeleteImageCoin")', { value: $('#Coin_Value').val() }, function (result) {
-                // decrement the product IDs after the removed image
-                var oldUrls = element.parent().nextAll().children("a");
-                for (var i = 0; i < $(oldUrls).length; i++) {
-                    var newIndex = $(oldUrls[i]).data('image-index') - 1;
-                    $(oldUrls[i]).data('image-index', newIndex);
-                }
-                // remove the image preview
-                element.parent().remove();
-
-                var ExistsThumbnailFile = $('#ExistsThumbnailFile');
-                ExistsThumbnailFile.val(false);
-            });
-
+                    var ExistsThumbnailFile = $('#ExistsThumbnailFile');
+                    ExistsThumbnailFile.val(false);
+                });
+            }
         }
-    });
-});
+    })
+}
+
+DeleteImageDrink = (url, id) => {
+    $.ajax({
+        type: 'GET',
+        url: url,
+        success: function (res) {
+            if (confirm('Вы уверены, что хотите удалить выбранный предварительный просмотр?')) {
+                $.post(url, { id: id }, function (result) {
+                    var divDrinkImage = $('#drink-image-administration');
+                    divDrinkImage.remove();
+
+                    var ExistsThumbnailFile = $('#ExistsThumbnailFile');
+                    ExistsThumbnailFile.val(false);
+                });
+            }
+        }
+    })
+}

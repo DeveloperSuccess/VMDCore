@@ -163,7 +163,7 @@ namespace VMDCore.Controllers
 
         public void DeleteImageCoin(int value)
         {
-            drinkManager.RemoveThumbnailFile(value);
+            coinManager.RemoveThumbnailFile(value);
         }
     }
 }
