@@ -16,10 +16,4 @@
     <ProjectReference Include="..\Bussiness\VMDCore.Bussiness.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="App_Data\VMDCore.mdf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>
