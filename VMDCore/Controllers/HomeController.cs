@@ -123,14 +123,14 @@ namespace VMDCore.Controllers
                             }
                         }
 
-                            if (operation.Balance > 0)
+                        if (operation.Balance > 0)
+                        {
+                            if (p.Value == 1)
                             {
-                                if (p.Value == 1)
-                                {
-                                    operation.Message += " осталась невыданная сдача " + operation.Balance + " руб.";
-                                }
+                                operation.Message += " осталась невыданная сдача " + operation.Balance + " руб.";
                             }
- 
+                        }
+
 
                         operationManager.SaveOperation(operation);
                         if (operation.Balance == 0)
@@ -142,7 +142,7 @@ namespace VMDCore.Controllers
                     }
                 }
                 tempBalance -= operation.Balance;
-                operation.Message = tempBalance  + " рублей, из которых " + operation.Message;
+                operation.Message = tempBalance + " рублей, из которых " + operation.Message;
                 operationManager.SaveOperation(operation);
             }
             return RedirectToAction("Index");
